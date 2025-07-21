@@ -1,2 +1,3 @@
-# dd-H2-simplyconnected
-Numerical examples of optimal approximation in Hardy spaces of functions analytic in simply connected domains
+# Data-driven optimal approximation on Hardy spaces in simply connected domains
+This repository contains code for the manuscript
+
