@@ -114,7 +114,7 @@ for i = 1:1:size(r_range,2)
     init2 = 1 + rand(r-opts2,1) + 10i*rand(r-opts2,1); init2 = [sigma2; init2];
     [Er2,Ar2,Br2,Cr2,sigma2,conv2] = TFIRKA(G,dG,r,@(x) -conj(x),init2,1000,1e-6);
     %repeat until convergence
-    if conv2 == 0
+    while conv2 == 0
         init2 = 1 + rand(r/2,1) + 10i*rand(r/2,1); init2 = [init2;conj(init2)];
         [Er2,Ar2,Br2,Cr2,sigma2,conv2] = TFIRKA(G,dG,r,@(x) -conj(x),init2,1000,1e-6);
     end
