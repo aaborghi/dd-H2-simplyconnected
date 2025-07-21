@@ -106,7 +106,7 @@ r_range = 4:2:14;
 for i = 1:1:size(r_range,2)
     r = r_range(i)
     init = 0.1*randn(r,1)+0.1i*randn(r,1); init = (init./abs(init)).*rand(r,1);
-    [Er,Ar,Br,Cr,Dr,sigma,~] = tfirkaD(H,dH,r,init,10000,1e-6);
+    [Er,Ar,Br,Cr,Dr,sigma,~] = algorithm1(H,dH,r,init,10000,1e-6);
     Gr = @(s) Cr*((s*Er-Ar)\(Br))+Dr;
     funerror = @(z) abs((H(exp(1i*z))-Gr(exp(1i*z)))).^2;
     H2D_IRKA(i) = sqrt((1/(2*pi))*integral(funerror,0,2*pi,'RelTol',1e-8,'AbsTol',1e-12,'ArrayValued',true));%./H2fomfom;
