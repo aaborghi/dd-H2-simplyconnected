@@ -130,7 +130,7 @@ funerror0 = @(z) abs((H(exp(1i*z))-R3(exp(1i*z)))).^2;
 H2D_AAA3 = sqrt((1/(2*pi))*integral(funerror0,0,2*pi,'RelTol',1e-8,'AbsTol',1e-12,'ArrayValued',true))./H2fomfom;
 
 
-r_range = 4:4:16; %40
+r_range = 4:4:40;
 H2D_IRKA = zeros(size(r_range));
 H2D_AAA = zeros(size(r_range));
 H2D_AAA2 = zeros(size(r_range));
