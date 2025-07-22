@@ -1,6 +1,6 @@
 # Data-driven optimal approximation on Hardy spaces in simply connected domains
 This repository contains code for the manuscript 
-> A. Borghi, T. Breiten *Data-driven optimal approximation on Hardy spaces in simply connected domains*
+> A. Borghi, T. Breiten, *Data-driven optimal approximation on Hardy spaces in simply connected domains*, [ArXiv](https://arxiv.org/abs/2507.15837) (2025)
 
 For the experiments to work [chebfun](https://www.chebfun.org) needs to be installed.
 

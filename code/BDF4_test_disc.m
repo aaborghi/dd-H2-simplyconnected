@@ -101,15 +101,24 @@ semilogy(1:1:time,ones(1,time)*H2D_bound,'b:');
 
 %% H2 norm
 fomfom = @(z) abs(H(exp(1i*z))).^2;
+H2fomfom = sqrt((1/(2*pi))*integral(fomfom,0,2*pi,'RelTol',1e-8,'AbsTol',1e-12,'ArrayValued',true));
 sigma = [];
 r_range = 4:2:14;
 for i = 1:1:size(r_range,2)
     r = r_range(i)
     init = 0.1*randn(r,1)+0.1i*randn(r,1); init = (init./abs(init)).*rand(r,1);
-    [Er,Ar,Br,Cr,Dr,sigma,~] = algorithm1(H,dH,r,init,10000,1e-6);
+    [Er,Ar,Br,Cr,Dr,sigma,conv] = algorithm1(H,dH,r,init,1000,1e-6);
+    if conv == 0
+        init = 0.1*randn(r,1)+0.1i*randn(r,1); init = (init./abs(init)).*rand(r,1);
+        [Er,Ar,Br,Cr,Dr,sigma,conv] = algorithm1(H,dH,r,init,1000,1e-6);
+    end
+    if conv == 0
+        init = 0.1*randn(r,1)+0.1i*randn(r,1); init = (init./abs(init)).*rand(r,1);
+        [Er,Ar,Br,Cr,Dr,sigma,conv] = algorithm1(H,dH,r,init,1000,1e-3);
+    end
     Gr = @(s) Cr*((s*Er-Ar)\(Br))+Dr;
     funerror = @(z) abs((H(exp(1i*z))-Gr(exp(1i*z)))).^2;
-    H2D_IRKA(i) = sqrt((1/(2*pi))*integral(funerror,0,2*pi,'RelTol',1e-8,'AbsTol',1e-12,'ArrayValued',true));%./H2fomfom;
+    H2D_IRKA(i) = sqrt((1/(2*pi))*integral(funerror,0,2*pi,'RelTol',1e-8,'AbsTol',1e-12,'ArrayValued',true))./H2fomfom;
     
 end
 
