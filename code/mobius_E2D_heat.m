@@ -2,6 +2,8 @@
 clear all; close all; clc;
 rng(42);
 
+addpath('functions');
+
 G = @(s) exp(-sqrt(s));
 dG = @(s) -exp(-sqrt(s))./(2*sqrt(s));
 
@@ -56,6 +58,7 @@ loglog(w,abs(G_eval),'k-'); hold on
 loglog(w,abs(Gr_eval),'r--'); 
 loglog(w,abs(Gr2_eval),'b:'); 
 legend('G','algorithm 1', 'TF-IRKA','Interpreter','latex','FontSize',16);
+title('Evaluation on the imaginary axis');
 subplot(2,1,2);
 loglog(w,abs(G_eval-Gr_eval),'r-'); hold on
 loglog(w,abs(G_eval-Gr2_eval),'b-'); 
@@ -78,6 +81,7 @@ semilogy(linspace(0,2*pi,1000),abs(G_eval),'k-'); hold on
 semilogy(linspace(0,2*pi,1000),abs(Gr_eval),'r--'); 
 semilogy(linspace(0,2*pi,1000),abs(Gr2_eval),'b:'); hold off
 legend('G','algorithm 1', 'TF-IRKA','Interpreter','latex','FontSize',16);
+title('Evaluation on the unit circle');
 subplot(2,1,2);
 semilogy(linspace(0,2*pi,1000),abs(G_eval-Gr_eval),'r-'); hold on
 semilogy(linspace(0,2*pi,1000),abs(G_eval-Gr2_eval),'b-'); hold off
@@ -127,7 +131,7 @@ end
 figure()
 semilogy(r_range,E2D_tfirka,'r-x'); hold on
 semilogy(r_range,H2Cp_tfirka,'b-o');
-legend('$E^2(D)$ error Algorithm 1', '$E^2(D)$ error TFIRKA','Interpreter','latex','FontSize',14);
+legend('$E_2(A)$ error Algorithm 1', '$E_2(A)$ error TFIRKA','Interpreter','latex','FontSize',14);
 hold off
 
 

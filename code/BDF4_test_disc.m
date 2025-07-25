@@ -1,5 +1,7 @@
 %% Weird testing
 clear all; clc; rng(42);
+addpath('functions');
+addpath('data');
 h = 1e-3; %time step
 phi = @(z) (1/h)*((z.^4)/4 - (4/3)*(z.^3) + 3*(z.^2) - 4*z + 25/12); % conformal map BDF4 method (not A-stable)
 dphi = @(z) (1/h)*((z.^3) - 4*(z.^2) + 6*z - 4);
@@ -50,6 +52,7 @@ ylabel('Im($z$)','interpreter','latex');
 
 
 %%
+% Evaluation on the unit circle
 w = exp(1i*linspace(0,2*pi,1000));
 Gr = @(s) Cr*((s*Er-Ar)\Br)+Dr;
 for i = 1:1:size(w,2)
@@ -62,6 +65,7 @@ subplot(2,1,1)
 semilogy(linspace(0,2*pi,1000),abs(G_eval),'k-'); hold on
 semilogy(linspace(0,2*pi,1000),abs(Gr_eval),'r--'); 
 legend('$f\circ \varphi$','$G_r\circ\varphi$', 'interpreter', 'latex')
+title('Evaluation on the unit circle')
 hold off
 subplot(2,1,2)
 semilogy(linspace(0,2*pi,1000),abs(G_eval-Gr_eval)./abs(G_eval),'r-');
@@ -95,11 +99,13 @@ figure()
 subplot(1,2,1)
 plot(1:1:time,y,'k'); hold on
 plot(1:1:time,yr,'r--');
+title('Discrete-time dynamics')
 subplot(1,2,2)
 semilogy(1:1:time,abs(y-yr),'r--'); hold on
 semilogy(1:1:time,ones(1,time)*H2D_bound,'b:');
+title('Error and bound')
 
-%% H2 norm
+%% H2A norm
 fomfom = @(z) abs(H(exp(1i*z))).^2;
 H2fomfom = sqrt((1/(2*pi))*integral(fomfom,0,2*pi,'RelTol',1e-8,'AbsTol',1e-12,'ArrayValued',true));
 sigma = [];
@@ -124,7 +130,7 @@ end
 
 figure()
 semilogy(r_range,H2D_IRKA,'r-x');
-legend('$H^2(D)$ error TF-IRKA','Interpreter','latex','FontSize',14);
+legend('$H_2(A)$ error Algorithm 1','Interpreter','latex','FontSize',14);
 hold off
 
 

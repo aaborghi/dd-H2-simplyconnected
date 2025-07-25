@@ -1,5 +1,7 @@
 %% BDF2 experiment
 clear all; clc; rng(42);
+addpath('functions');
+addpath('data');
 h = 0.001; %time step
 phi = @(z) (1/h)*((z.^2)/2 - 2*z + 3/2); % conformal map of BDF2 method
 dphi = @(z) (1/h)*(z-2); % derivative 
@@ -52,7 +54,7 @@ end
 
 
 %%
-% evaluation on disk
+% evaluation on unit circle
 w = exp(2i*pi*logspace(-7,0,1000));
 Gr = @(s) Cr*((s*Er-Ar)\Br)+Dr;
 R2_ = @(s) R2(phi(s));
@@ -76,6 +78,7 @@ loglog(2*pi*logspace(-7,0,1000),abs(RD3),':');
 loglog(2*pi*logspace(-7,0,1000),abs(Gr_eval),'--');
 loglog(2*pi*logspace(-7,0,1000),abs(G_eval),'-');
 legend('$R_D$','$R_A$','$R_D^L$','$G_r$','$G$','interpreter','latex');
+title('Evaluation on the unit circle');
 hold off
 
 
@@ -115,12 +118,14 @@ skip = 5;
 plot(1:skip:time,y(1:skip:end),'k'); hold on
 plot(1:skip:time,yr(1:skip:end),'r--');
 legend('$y_k$','$\widehat{y}_k$','interpreter','latex');
+title('Discrete-time dynamics');
 subplot(1,2,2)
 semilogy(1:1:time,abs(y-yr),'r--'); hold on
 semilogy(1:1:time,ones(1,time)*H2D_bound,'b:');
 legend('$|y_k-\widehat{y}_k|$','boundary','interpreter','latex');
+title('Error and bound');
 
-%% H2 norm
+%% H2A norm
 fomfom = @(z) abs(H(exp(1i*z))).^2;
 H2fomfom = sqrt((1/(2*pi))*integral(fomfom,0,2*pi,'RelTol',1e-8,'AbsTol',1e-12,'ArrayValued',true));
 
@@ -165,5 +170,7 @@ semilogy(r_range,H2D_AAA,'b-o');
 semilogy(r_range,H2D_AAA2,'k-+');
 semilogy(r_range,ones(size(r_range))*H2D_AAA3,'g-x');
 legend('Algorithm 1', 'AAA on $D$', 'AAA on $A$', 'AAA on $D$ Lawson','Interpreter','latex','FontSize',14);
+xlabel('r');
+ylabel('$H_2(A)$ error','interpreter','latex');
 hold off
 
